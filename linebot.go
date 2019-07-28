@@ -34,7 +34,7 @@ type Env struct {
 func Publish(toID string, message string, notifies bool) (string, error) {
 	env := Env{}
 	if err := envconfig.Process("", &env); err != nil {
-		fmt.Errorf("Error: %s", err)
+		_ = fmt.Errorf("Error: %s", err)
 	}
 
 	messages := Payload{
