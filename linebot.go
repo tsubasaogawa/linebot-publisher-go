@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/franela/goreq"
-	"github.com/kelseyhightower/envconfig"
 )
 
 const (
@@ -27,17 +26,10 @@ type Payload struct {
 	NotificationDisabled bool       `json:"notificationDisabled"`
 }
 
-// Env is the object consisted of environment variables used by envconfig
-type Env struct {
-	AccessToken string `required:"true"`
-	ToID        string `required:"true"`
-}
-
 // Publish sends a message to LINE.
-func Publish(toID string, message string, notifies bool) (string, error) {
-	env := Env{}
-	if err := envconfig.Process("", &env); err != nil {
-		_ = fmt.Errorf("Error: %s", err)
+func Publish(toID string, token string, message string, notifies bool) (string, error) {
+	if toID == "" || token == "" {
+		return "", fmt.Errorf("toID and token must be needed")
 	}
 
 	messages := Payload{
@@ -56,7 +48,7 @@ func Publish(toID string, message string, notifies bool) (string, error) {
 		Uri:         endpoint,
 		ContentType: "application/json",
 		Body:        messages,
-	}.WithHeader("Authorization", "Bearer "+env.AccessToken).Do()
+	}.WithHeader("Authorization", "Bearer "+token).Do()
 
 	body, _ := res.Body.ToString()
 	return body, nil
@@ -64,8 +56,6 @@ func Publish(toID string, message string, notifies bool) (string, error) {
 
 func main() {
 	// Example
-	//   env := Env{}
-	//   envconfig.Process("", &env)
 	//   resp, _ := Publish(env.ToID, "テスト", true)
 	//   fmt.Printf("%v\n", resp)
 }
