@@ -11,15 +11,19 @@ The simplest line bot publisher module for golang. It supports sending only a te
 
 ### Client side
 
-1. Write the code using the publisher. For example:
+1. Write the code using the publisher (*).
+1. Upload function to AWS lambda
+
+(*) Example
 
 ```go
 import "github.com/tsubasaogawa/linebot-publisher-layer-go"
    :
+// To LINE ID, LINE Access Token, Message, Notification Flag
 linebot.Publish("abc123...", "def456...", "Hello", false)
 ```
 
-1. Upload function to AWS lambda
+Information of needed arguments of `Publish()` are written in linebot.go.
 
 ## Image
 
