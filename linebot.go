@@ -1,5 +1,7 @@
 package linebot
 
+// Line Bot publisher layer for go
+
 import (
 	"fmt"
 
@@ -11,26 +13,27 @@ const (
 	endpoint = "https://api.line.me/v2/bot/message/push"
 )
 
-// Messages is
+// Messages has type and text.
 type Messages struct {
 	Type string `json:"type"`
 	Text string `json:"text"`
 }
 
-// Payload is
+// Payload includes Messages structure.
 type Payload struct {
+	// LINE ID
 	To                   string     `json:"to"`
 	Messages             []Messages `json:"messages"`
 	NotificationDisabled bool       `json:"notificationDisabled"`
 }
 
-// Env is
+// Env is the object consisted of environment variables used by envconfig
 type Env struct {
 	AccessToken string `required:"true"`
-	ToID        string
+	ToID        string `required:"true"`
 }
 
-// Publish is ...
+// Publish sends a message to LINE.
 func Publish(toID string, message string, notifies bool) (string, error) {
 	env := Env{}
 	if err := envconfig.Process("", &env); err != nil {
@@ -60,8 +63,9 @@ func Publish(toID string, message string, notifies bool) (string, error) {
 }
 
 func main() {
-	env := Env{}
-	envconfig.Process("", &env)
-	resp, _ := Publish(env.ToID, "テスト", true)
-	fmt.Printf("%v\n", resp)
+	// Example
+	//   env := Env{}
+	//   envconfig.Process("", &env)
+	//   resp, _ := Publish(env.ToID, "テスト", true)
+	//   fmt.Printf("%v\n", resp)
 }
