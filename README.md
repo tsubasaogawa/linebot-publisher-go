@@ -4,10 +4,12 @@ The simplest line bot publisher module for golang. It supports sending only a te
 
 ## Usage
 
+<!--
 ### Layer side
 
 1. `make`
 1. Upload zip includes binary to AWS Lambda Layer
+-->
 
 ### Client side
 
